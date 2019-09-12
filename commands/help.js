@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
         .setThumbnail(bot.user.displayAvatarURL)
         .setTimestamp()
         .setDescription(`⚙ Estes são os comandos disponíveis do bot!\n 🎤 O prefixo do bot é: ${prefix}`)
-        .addField(`⌨ Comandos :`, " `addrole,anal,ass,avatar,ban,botinfo,cat,help,hentai,invite,kick,limpar,ping,pussy,reload,removerole,report,roles,say,serverinfo,sorteio,suporte,userinfo,votacao,regras` ")
+        .addField(`⌨ Comandos :`, " `addrole,anal,ass,avatar,ban,botinfo,cat,help,hentai,invite,kick,limpar,ping,pussy,reload,removerole,report,roles,say,serverinfo,sorteio,suporte,userinfo,votacao,regras,timer,8ball,dick(manutenção)` ")
         .setFooter("Bot Suporte 2019", bot.user.displayAvatarURL)
         message.channel.send(embed).then(m => m.delete(10000));
         message.author.send(Sembed)

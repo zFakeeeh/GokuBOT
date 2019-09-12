@@ -1,35 +1,50 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-exports.run = (client, message, args) => {
-
-    const moment = require("../node_modules/moment")
-    moment.locale("pt-BR")
-    let online = message.guild.members.filter(a => a.presence.status == "online").size;
-    let ocupado = message.guild.members.filter(a => a.presence.status == "dnd").size;
-    let ausente = message.guild.members.filter(a => a.presence.status == "ausente").size;
-    let offline = message.guild.members.filter(a => a.presence.status == 'offline').size;
-    let bot = message.guild.members.filter(a => a.user.bot).size;
-    let totalmembros = message.guild.memberCount;
-    let canaistexto = message.guild.channels.filter(a => a.type === "text").size;
-    let canaisvoz = message.guild.channels.filter(a => a.type === "voice").size;
-    let cargos = message.guild.roles.map(a => a.name).join(", ")
-        const embed = new Discord.RichEmbed()
-        .setTitle(`Info **${message.guild.name}**`)
-        .setColor("#00e0ff")
-        .setThumbnail(message.guild.iconURL)
-        .setTimestamp()
-        .setDescription(" <:discord:569249964916473859> Server info:")
-        .addField(':computer: Criador do servidor:', `<@${message.guild.owner.id}>`)
-        .addField(':date: Criado em:', moment(message.guild.createdAt).format('LLLL'))
-        .addField(":id: ID:", message.guild.id)
-        .addField(`<:Membros:569258298080231443> Membros [${totalmembros}]`, `<:online:569256858351566865> Online: ${online}\n<:idle:569256302438514688> Ausente: ${ausente}\n <:dnd:569256806275088476> Ocupado: ${ocupado} \n <:offline:569256350526210049> Offline: ${offline}\n :robot: **Bots:** ${bot}`)
-        .addField(`:thought_balloon:   Canais [${canaistexto+canaisvoz}]`, ` :pencil: Texto: ${canaistexto}\n :speaking_head: Voz: ${canaisvoz}`)
-        //.addField(`:white_small_square:Cargos [${message.guild.roles.size}]`, cargos)
-        .setFooter(`Comando solicitado por: ${message.author.tag}`, `${message.author.avatarURL}`)
-        message.channel.send(embed)
+const Discord = require("discord.js");
+var moment = require('moment');
+moment.locale('pt-BR');
+exports.run = (bot, message, args) => {
+    let parts = message.content.split(' ');
+    let argsJunto = message.content.split(" ").slice(1).join(' ')
+    	    const serverinfo = new Discord.RichEmbed();
+        if (message.guild === null) {
+            message.channel.sendMessage('<:vpRedTick:257437215615877129> | Você não parece estar executando o comando num servidor.');
+        } else {
+            if (message.guild.iconUrl === null) {
+                serverinfo.setAuthor('Informações de ' + message.guild.name, 'https://cdn.discordapp.com/avatars/294881981630644224/fa9e90b10df8173085dd4a84ab67f52f.webp')
+            } else {
+                serverinfo.setAuthor('Informações de ' + message.guild.name, message.guild.iconURL);
+                serverinfo.setThumbnail(message.guild.iconURL);
+            }
+            serverinfo.addField('Nome do server', message.guild.name, true);
+            serverinfo.addField('Região do server', message.guild.region, true);
+            serverinfo.addField('Dono', message.guild.owner.user.username + '#' + message.guild.owner.user.discriminator, true);
+            message.guild.fetchMembers();
+            serverinfo.addField('Membros', message.guild.memberCount, true);
+            serverinfo.addField('Data de criação', moment(message.guild.createdAt).format('LL'));
+            serverinfo.addField('Cargos', message.guild.roles.size, true);
+            membrosOn = ['']
+    message.guild.members.forEach(member => {
+    if(member.presence.status === 'online' || member.presence.status === 'idle' || member.presence.status === 'dnd' ) {
+    membrosOn.push(member.user.username)
+    }
+    })  
+            serverinfo.addField('Membros online', membrosOn.length - 1, true)
+            serverinfo.setTimestamp();
+            serverinfo.setFooter('Solicitado por ' + message.author.username, message.author.avatarURL);
+            if (message.member.highestRole.color !== undefined) {
+                serverinfo.setColor(message.member.highestRole.color);
+            }
+            if (message.channel.permissionsFor(message.guild.member(bot.user)).hasPermission('EMBED_LINKS')) {
+                message.channel.sendEmbed(serverinfo);
+            } else {
+                message.author.sendEmbed(serverinfo);
+                message.channel.sendMessage(':warning: | Eu não tenho a permissão `EMBED_LINKS` neste servidor. O resultado foi enviado por privado.');
+            }
+        }
 }
-
-exports.config = {
+module.exports.config = {
     name: "serverinfo",
-    aliases: ["serverinfo", "server"]
+    description: " a member in the discord!",
+    usage: "*serverinfo",
+    accessableby: "Members",
+    aliases: ["ava"]
 }

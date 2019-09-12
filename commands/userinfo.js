@@ -1,36 +1,49 @@
 const Discord = require("discord.js");
-const moment = require("moment");
-moment.locale("pt-BR");
+var moment = require('moment');
+moment().format();
+moment.locale('pt-BR');
+exports.run = (bot, message, args) => {
+    let parts = message.content.split(' ');
+    let argsJunto = message.content.split(" ").slice(1).join(' ')
+    	    let user = message.mentions.users.first();
+        if (message.mentions.users.first() === undefined) {
+            message.channel.sendMessage(' | O usuário mencionado não foi reconhecido pelo bot, ou você não mencionou ninguém.').then(message => {
+                            	setTimeout(() => {message.delete()}, 5000)
+                            })
+        } else {
+            const whoIs = new Discord.RichEmbed();
+            whoIs.setAuthor('Solicitado por ' + message.author.username, message.author.avatarURL);
+            if (user.presence.game !== null) {
+                if (user.presence.game.streaming) {
+                    whoIs.setDescription('Transmitindo **' + user.presence.game.name + '**.');
+                } else {
+                    whoIs.setDescription('Jogando **' + user.presence.game.name + '**.');
+                }
+            }
+            whoIs.addField('Nome de Usuário', user.username, true)
+            whoIs.addField('ID', user.id, true);
+            whoIs.setThumbnail(user.avatarURL);
+            whoIs.addField('Status', user.presence.status, true);
+            whoIs.addField('Conta criada', moment(user.createdAt).format('LL'), true);
+            whoIs.setTimestamp();
 
-module.exports.run = async (client, message, args) => {
-var member = message.member;
-    let bbUser = message.mentions.members.first();
-    if(bbUser) {
-        let guilda = await message.guild.fetchMembers();
-        member = guilda.members.get(bbUser.id);
-    } else {
-        bbUser = message.member;
-    }
-
-    let status;
-    if(bbUser.presence.status === "online") status = `<:online:569256858351566865>`
-    if(bbUser.presence.status === "dnd") status = `<:dnd:569256806275088476>`
-    if(bbUser.presence.status === "idle") status = `<:idle:569256302438514688>`
-    if(bbUser.presence.status === "stream") status = `<:streaming:569620717411237933>`
-    if(bbUser.presence.status === "offline") status = `<:offline:569256350526210049>`
-
-    let embed = new Discord.RichEmbed()
-    .setDescription(`:bookmark: Nome: **${bbUser.user.tag}**\n` +
-    ` :computer: ID: **${bbUser.id}**\n` +
-    ` :pencil: Apelido: ${bbUser.nickname ? `${bbUser.nickname}` : "**Nenhum**"} \n` +
-    ` :video_game: Jogando: ${bbUser.presence.game ? `**${bbUser.presence.game.name}**` : "**Nada**"} **${status}**\n` +
-    ` :date: Conta criada à: **\`${moment().diff(bbUser.user.createdAt, "days")} dias\`**\n` +
-    ` :star2:  Está à: **\`${moment().diff(member.joinedAt, "days")} dias no servidor\`**\n` +
-    ` :shield: Cargos: ${member.roles.map(r => r).join(", ").replace("@everyone, ", "")}`)
-    .setThumbnail(bbUser.user.displayAvatarURL)
-    .setColor(0xff6e00)
-
-    message.channel.send(embed);
+            if (message.channel.type === 'dm') {
+                message.channel.sendEmbed(whoIs);
+            } else if (message.channel.permissionsFor(message.guild.member(bot.user)).hasPermission('EMBED_LINKS')) {
+            	whoIs.addField('Entrou no server', moment(message.guild.member(user).joinedAt).format('LL'), true);
+            	if (message.member.highestRole.color !== undefined) {
+                whoIs.setColor(message.member.highestRole.color)
+            }
+                message.channel.sendEmbed(whoIs);
+            } else {
+            	whoIs.addField('Entrou no server', moment(message.guild.member(user).joinedAt).format('LL'), true);
+            	if (message.member.highestRole.color !== undefined) {
+                whoIs.setColor(message.member.highestRole.color)
+            }
+                message.author.sendEmbed(whoIs);
+                message.channel.sendMessage(':warning: | Eu não tenho a permissão `EMBED_LINKS` neste servidor. O resultado foi enviado por privado.');
+            }
+        }
 }
 module.exports.config = {
     name: "userinfo",

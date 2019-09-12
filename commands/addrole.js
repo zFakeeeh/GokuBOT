@@ -5,10 +5,10 @@ module.exports.run = async (bot, message, args) => {
 
   if(message.member.hasPermission("ADMINISTRATOR")) {
             let member2 = message.mentions.members.first();
-            if(!member2) return message.reply(":x: " + "| Mencione um usuário INFERNO");
+            if(!member2) return message.reply("" + "| Mencione um usuário para dar o cargo ");
 
             let muteRole2 = message.mentions.roles.first();
-            if(!muteRole2) return message.reply(":x: " + `| Mencione o cargo satanas`);
+            if(!muteRole2) return message.reply("" + `| Mencione um cargo para setar`);
             
             let time2 = args[2];
             if(!time2) {
