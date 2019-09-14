@@ -4,7 +4,7 @@ const superagent = require('superagent')
 exports.run = (client, msg, args) => {
   if (msg.channel.nsfw === true) {
     superagent.get('https://nekobot.xyz/api/image')
-    .query({ type: 'hentai_anal'})
+    .query({ type: 'pussy'})
     .end((err, response) => {
       msg.channel.send({ file: response.body.message });
     });
@@ -14,9 +14,9 @@ exports.run = (client, msg, args) => {
 };
 
 module.exports.config = {
-    name: "hentai",
+    name: "pussy",
     description: " a member in the discord!",
-    usage: "*hentai",
+    usage: "*pussy",
     accessableby: "Members",
     aliases: ["ava"]
 }

@@ -37,6 +37,7 @@ module.exports.run = async (bot, message, args) => {
         .addField(`🎈 Diversão:`, " `8ball,cat,kiss,hug,dog,fish` ")
         .addField(`👮 Administrador:`, " `addrole,ban,kick,limpar,mute,removerole,sorteio,votação,reload,` ")
         .addField(`🔧 Utilitários:`, " `invite,say,suporte,remind` ")
+        .addField(`👿 NSFW:`, " `pussy,ass,anal,gif,hentai,holo` ")
         .setFooter("Bot Suporte 2019", bot.user.displayAvatarURL)
         message.channel.send(embed).then(m => m.delete(10000));
         message.author.send(Sembed)
