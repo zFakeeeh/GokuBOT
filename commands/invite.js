@@ -5,9 +5,10 @@ module.exports.run = async (bot, message, args) => {
     
  let inviteEmbed = new Discord.RichEmbed()
  .setDescription("[**Convite**](http://bit.ly/GokuBot)")
- .setColor("#00ff00")
+ .setColor("blue")
  .setThumbnail(bicon)
  .addField("Use esse link para adicionar o GokuBOT ao seu servidor ", "http://bit.ly/GokuBot")
+ .addField("Use esse link para entrar no servidor de Suporte do Goku", "https://discord.gg/TA5rsqM" )
 
  message.channel.send(inviteEmbed);
 
