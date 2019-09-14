@@ -33,7 +33,10 @@ module.exports.run = async (bot, message, args) => {
         .setThumbnail(bot.user.displayAvatarURL)
         .setTimestamp()
         .setDescription(`⚙ Estes são os comandos disponíveis do bot!\n 🎤 O prefixo do bot é: ${prefix}`)
-        .addField(`⌨ Comandos :`, " `addrole,avatar,ban,botinfo,cat,help,invite,kick,limpar,ping,reload,removerole,report,roles,say,serverinfo,sorteio,suporte,userinfo,votacao,regras,8ball` ")
+        .addField(`⌨ Geral :`, " `avatar,botinfo,help,ping,regras,report,roles,serverinfo,userinfo` ")
+        .addField(`🎈 Diversão:`, " `8ball,cat,kiss,hug,dog,fish` ")
+        .addField(`👮 Administrador:`, " `addrole,ban,kick,limpar,mute,removerole,sorteio,votação,reload,` ")
+        .addField(`🔧 Utilitários:`, " `invite,say,suporte,remind` ")
         .setFooter("Bot Suporte 2019", bot.user.displayAvatarURL)
         message.channel.send(embed).then(m => m.delete(10000));
         message.author.send(Sembed)

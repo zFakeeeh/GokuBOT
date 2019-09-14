@@ -6,7 +6,7 @@ module.exports = bot => {
 
 
     let statuses = [
-        `| Meu prefix é * <3`,`| Fui criado pelo vitor!`,`| Estou ainda em fase beta 0.`,`| Meu server de suporte está pronto ! *invite`
+        `| Meu prefix é * <3`,`| Fui criado pelo vitor!`,`| Estou ainda em fase beta 0.3`,`| Meu server de suporte está pronto ! *invite`
     ]
 
     setInterval(function() {
