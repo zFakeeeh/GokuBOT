@@ -1,1 +1,1 @@
-Este é o arquivo do Goku espero que gostem ^^
+"Este é o arquivo do Goku espero que gostem ^^"
